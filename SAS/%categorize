@@ -1,5 +1,7 @@
 %macro categorize(ds=,var=,percentile_list=%str(20 40 60 80),class_var=);
 ** categorize a continuous variable into classes based on given percentiles;
+** note that this works for wide files;  
+**  in 'long' files, the repeated measurements distort of course the percentile cut points;  
 
 * calculate the percentiles for the given percentages;
 proc univariate noprint data=&ds;
