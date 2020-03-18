@@ -1,0 +1,40 @@
+%macro categorize(ds=,var=,percentile_list=%str(20 40 60 80),class_var=);
+** categorize a continuous variable into classes based on given percentiles;
+
+* calculate the percentiles for the given percentages;
+proc univariate noprint data=&ds;
+  var &var;
+  output out=_percsplit pctlpts=&percentile_list pctlpre=pct;
+run;
+
+* format classes from a dataset;
+* needed vars: fmtname, start (left side of the =), label (right of the =);
+data format;set _percsplit;
+retain fmtname "fmt_&var";
+array percentile pct: ;
+do start=1 to dim(percentile);
+	if start=1 then label=catx('<', '..', put(percentile{start},5.2));* put(..,5.2) to get 2 decimals;
+	if start ne 1 then label=catx('-', put(percentile{start-1},5.2), put(percentile{start},5.2));
+	output;
+end;
+label=put(percentile{dim(percentile)},5.2)||">..";output; * last range;
+drop pct: ;
+run;
+proc format cntlin=format;run;
+
+* add the cutpoints create the new variable in the main dataset;
+data &ds; 
+if _n_=1 then set _percsplit; set &ds; * add the cutpoints to the dataset;
+array percentile pct: ; * an array with percentiles;
+* calculate the class number; 
+if &var ne . then do; 
+	&class_var=1; 
+	do i=1 to dim(percentile); if &var > percentile{i} then &class_var=&class_var+1; end;
+end;
+label &class_var="class &var";
+format &class_var fmt_&var..;
+* drop the percentiles;
+drop i ;drop pct:;
+run;
+
+%mend categorize;
