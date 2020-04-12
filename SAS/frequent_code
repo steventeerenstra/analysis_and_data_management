@@ -1,0 +1,18 @@
+/** GRAPHICS **/
+* to remove the border of graphics for copying into a pptx file;
+ods graphics / noborder;
+ods rtf file="output.doc";
+..
+ods rtf close;
+
+
+
+/*** READING dataset ***/
+* reading a character variable; 
+data a; length cluster $40.;input cluster $ size;
+datalines;
+esophageal 80
+...
+bladder 40
+;
+run;
