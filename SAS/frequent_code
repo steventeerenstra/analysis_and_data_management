@@ -6,6 +6,10 @@ ods rtf file="output.doc";
 ods rtf close;
 
 
+/*** DATA ****/
+* relative folder naming; 
+libname here ".";
+libname data "../Data";
 
 /*** READING dataset ***/
 * reading a character variable; 
