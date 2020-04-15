@@ -1,6 +1,8 @@
 /**REPORTING **/
 * large output: no newpages and a table of contents;
 ods pdf compress=9 file="...pdf" startpage=no pdftoc=1;
+ods noproctitle; *to get the titles in the toc;
+
 
 /** GRAPHICS **/
 * to remove the border of graphics for copying into a pptx file;
