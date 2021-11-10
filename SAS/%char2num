@@ -1,0 +1,18 @@
+* make numeric and keep the same name;
+* if needed: replace the "," for a decimal "." ;
+* if needed: replace code for missing values (e.g. "NA") by a numeric missing value;
+
+%macro char2num(var=,missinglist=(.));
+  &var._c=&var; *keep the character version;
+  &var._temp=tranwrd(&var._c,",",".") ; * insert decimal point;
+  if &var._temp in &missinglist then &var._temp=".a";* recode missing;
+  &var._n=input(&var._temp,12.10);*change to numeric;
+  drop &var ; * delete the variable to remove the character format; 
+  rename &var._n=&var;*get the old variable name;
+  drop &var._temp;
+%mend; 
+
+data nimbus_raw; set nimbus_raw;
+%char2num(var=IL_1RA,missinglist=%str( ("NaN") ) );
+%char2num(var=IL_2, missinglist=%str( ("NaN") ));
+run;
