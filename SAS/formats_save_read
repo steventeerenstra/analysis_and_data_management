@@ -1,0 +1,18 @@
+* save accompanying formats;
+* see https://communities.sas.com/t5/General-SAS-Programming/Saving-work-formats-to-a-permanent-location/td-p/321848;
+data dir.base; set work.base;run;
+proc catalog catalog = work.formats;
+  copy out = dir.formats;
+  run;
+quit;
+
+***********************************************************;
+
+* to read a dataset and the attached formats;
+
+libname data "..\data";
+* get formats;
+options fmtsearch= (data.formats);
+* get data;
+data main; set data.base;
+run;
