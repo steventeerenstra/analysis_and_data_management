@@ -1,0 +1,30 @@
+* add baseline value in a long database &dsin to get a long database &dsout;
+
+
+%macro add_base(dsin=,dsout=,sortby=, varlist=,first_identifier=);
+* sortby orders the repeated measurements within a subject;
+* varlist is the list of variables for which to add a baseline;
+* first_identifier identifies the first measurement of a subject;
+%local i var;
+proc sort data=&dsin; by &sortby;
+data &dsout; set &dsin; 
+  by &sortby;
+  %DO i=1 %TO %sysfunc(countw(&varlist));
+  	%let var=%trim( %scan(&varlist,&i) );
+  	retain base_&var;
+  	if &first_identifier then base_&var=&var;; 
+  %END;;
+run;
+%mend;
+
+* example;
+* here a double check is made on the first record;
+*      a new value for the patient_id starts 
+*      AND also time=1 (to avoid that patients with missing baseline are given the wrong baseline;
+%add_base(dsin=nimbus0,dsout=nimbus,
+			sortby=%str(patient_id time), 
+			varlist=log_IFN_g log_IL_12p70 log_IL_1RA 
+					log_IL_2 log_IL_6 log_IL_8 
+					log_IP_10 log_MCP_1 log_MIP_3a log_MIG log_PD_L1,
+			first_identifier=%str(first.patient_id and time=1)
+           );
