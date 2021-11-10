@@ -1,0 +1,29 @@
+* get path and date / time  in footer;
+
+data _null_;    
+length path $256;    
+if getoption('DMS') eq 'DMS'       then path = sysget('SAS_EXECFILEPATH');       
+else path = getoption('SYSIN');    
+path = substr(path,1,find(path,'.',-vlength(path)));    
+call symputX('PATH',path,'G');  
+stop; 
+run;
+footnote1 "...";
+footnote2 j=left h=8pt "&path.sas" j=right "%sysfunc(datetime(),datetime)";* path left and data right aligned;
+
+* alternative for date;
+footnote .j=r "%sysfunc(today(), yymmdd10)";
+
+
+* general ods rtf hints: https://support.sas.com/resources/papers/proceedings11/263-2011.pdf;
+* format of rtf lay-out;
+ods noproctitle;
+options nodate;
+proc template;    define style statsinrows;       
+	parent=Styles.Journal3;          
+	style body from document / leftmargin=1in rightmargin=1in topmargin=1in bottommargin=1in ; 
+	*change fonts: https://support.sas.com/resources/papers/proceedings/proceedings/sugi29/125-29.pdf;
+	replace fonts / 'docFont'=("calibri",10pt) 'headingFont'=("calibri",11pt,Italic) 'TitleFont' = ("Verdana",13pt, Italic) ;
+	end; 
+run; 
+
