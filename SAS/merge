@@ -19,3 +19,4 @@ data base; merge mother allocation; by record_id;run;
 data base; set base; identical=compare(id_allo, id_mother);run;
 proc print data=base; var record_id id_allo id_mother identical;
 run;
+ 
