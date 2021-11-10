@@ -26,4 +26,3 @@ proc template;    define style statsinrows;
 	replace fonts / 'docFont'=("calibri",10pt) 'headingFont'=("calibri",11pt,Italic) 'TitleFont' = ("Verdana",13pt, Italic) ;
 	end; 
 run; 
-
