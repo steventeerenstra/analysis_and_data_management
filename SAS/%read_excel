@@ -1,0 +1,15 @@
+%macro read_excel(path_spss_long=, ds_out=); 
+
+* get spss data in long format into sas;
+PROC IMPORT OUT=ds_out 
+            DATAFILE= &path_spss_long 
+            DBMS=SPSS REPLACE;
+RUN;
+%mend; 
+
+* using a common foldername and concatenating with specific file name;
+%let foldername=%str(C:\Users\st\Desktop\shortcuts\Actief\21 Clementine Verhulst interval censored\21 11 all parameters and extra subgroups\);
+
+%let db=Adrenaline_corrected_database_T1DM_withstepbefore_Long_Steven;
+%let path_spss_long="&foldername&db";
+%read_excel(path_spss_long=&path_spss_long,ds_out=ds);
