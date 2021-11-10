@@ -1,0 +1,21 @@
+************* merging ***********************************************
+* for comparison rename common variables;
+data allocation; set allocation;
+id_allo=record_id;
+run;
+
+data mother;set mother;
+id_mother=record_id;
+run;
+
+* add allocation to mother;
+proc sort data=allocation; by record_id;
+proc sort data=mother;by record_id;
+run;
+
+data base; merge mother allocation; by record_id;run;
+
+* check merge;
+data base; set base; identical=compare(id_allo, id_mother);run;
+proc print data=base; var record_id id_allo id_mother identical;
+run;
