@@ -5,4 +5,4 @@
 	%let var=%TRIM( %SCAN(&varlist,&i) );*for concatenation with no leading/trailing spaces;
 	    *.... do something with for variable &var.....;
 %END;
-%mend;
+%mend; 
