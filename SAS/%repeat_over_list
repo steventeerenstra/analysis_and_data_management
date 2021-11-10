@@ -1,0 +1,8 @@
+* to repeatedly do a ask over a list (of variables for example);
+%macro repeat_over_list(varlist=);
+%local i var;
+%DO i=1 %TO %sysfunc(countw(&varlist));
+	%let var=%TRIM( %SCAN(&varlist,&i) );*for concatenation with no leading/trailing spaces;
+	    *.... do something with for variable &var.....;
+%END;
+%mend;
