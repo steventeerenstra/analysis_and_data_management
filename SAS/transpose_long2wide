@@ -1,0 +1,18 @@
+* transpose from long to wide, see https://libguides.library.kent.edu/SAS/TransposeData; 
+* 'by' determines the rows, 'id' de columns in the resulting transposed dataset;
+
+* for long>wide: same values 'by' determine one row, different values of 'id' are distributed over the columns; 
+proc sort data=_long;by  pat_id measurement;run;
+proc transpose data=_long out=_wide;
+    *variables that you want to copy along;
+    copy var1 var2;
+by pat_id; id measurement;
+var value; *here the measurement value of pat_id at given measurement;
+run;
+
+* because the copy statement copies every record of the input (= long) to the output(=wide);
+* but only copies the copy variables into the first record;
+* we need to remove the 'empty' records;
+data _wide; set _wide; 
+if _name_ ne "";
+run;
