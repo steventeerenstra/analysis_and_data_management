@@ -1,0 +1,3 @@
+* to include files with e.g. general statements;
+%include "macros.sas";
+%include "rtf_setup.sas";
