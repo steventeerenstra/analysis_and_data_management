@@ -1,5 +1,5 @@
-* get path and date / time  in footer;
-
+*********************mark-up of document***********************************************************************;
+* footer;
 data _null_;    
 length path $256;    
 if getoption('DMS') eq 'DMS'       then path = sysget('SAS_EXECFILEPATH');       
@@ -8,17 +8,34 @@ path = substr(path,1,find(path,'.',-vlength(path)));
 call symputX('PATH',path,'G');  
 stop; 
 run;
-footnote1 "...";
 footnote2 j=left h=8pt "&path.sas" j=right "%sysfunc(datetime(),datetime)";* path left and data right aligned;
 
-* alternative for date;
+
+/* alternative for date;
 footnote .j=r "%sysfunc(today(), yymmdd10)";
+*/
+
+*page layout;
+options orientation=landscape nodate;
+
+**TABLE of CONTENTS using method 2 of https://support.sas.com/resources/papers/proceedings/proceedings/forum2007/097-2007.pdf;
+* to generate a table of contents;
+* in ^R/RTF'xyz'  the text between xyz is put as rtf command; 
+ods rtf file="test.doc" startpage=no keepn notoc_data wordstyle='(\s1 Heading 1;)' ;
+ods noproctitle;
+ods escapechar='^';
+
+*header;
+title1 "STUDY description ";
+
+* entry for ToC;
+ods rtf prepage="^R/RTF'\s1\b\fs28' Investigate Missings";run;
 
 
+/*
 * general ods rtf hints: https://support.sas.com/resources/papers/proceedings11/263-2011.pdf;
 * format of rtf lay-out;
-ods noproctitle;
-options nodate;
+
 proc template;    define style statsinrows;       
 	parent=Styles.Journal3;          
 	style body from document / leftmargin=1in rightmargin=1in topmargin=1in bottommargin=1in ; 
@@ -26,3 +43,4 @@ proc template;    define style statsinrows;
 	replace fonts / 'docFont'=("calibri",10pt) 'headingFont'=("calibri",11pt,Italic) 'TitleFont' = ("Verdana",13pt, Italic) ;
 	end; 
 run; 
+*/
