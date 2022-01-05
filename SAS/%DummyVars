@@ -1,0 +1,19 @@
+
+/* define a macro to create dummy variables: 
+https://blogs.sas.com/content/iml/2020/08/31/best-generate-dummy-variables-sas.html 
+note that the macro variable _GLSMOD contains the names of all these generated dummies*/
+
+%macro DummyVars(DSIn=,    /* the name of the input data set */
+                 VarList=, /* the names of the categorical variables */
+                 DSOut=);  /* the name of the output data set */
+   /* 1. add a fake response variable */
+   data AddFakeY / view=AddFakeY;
+      set &DSIn;
+      _Y = 0;      /* add a fake response variable */
+   run;
+   /* 2. Create the design matrix. Include the original variables, if desired */
+   proc glmselect data=AddFakeY NOPRINT outdesign(addinputvars)=&DSOut(drop=_Y);
+      class      &VarList;   
+      model _Y = &VarList /  noint selection=none;
+   run;
+%mend;
