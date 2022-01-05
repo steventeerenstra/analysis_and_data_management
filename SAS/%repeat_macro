@@ -1,0 +1,8 @@
+* repeat for each variable &var in &varlist the macro &acroname(var=);
+%macro repeat_macro(varlist=, macroname=);
+%local var; %local i;
+%do i=1 %to %sysfunc(countw(&varlist));
+	%let var=%scan(&varlist,&i);
+	%&macroname.(var=&var);
+%end;
+%mend;
