@@ -44,3 +44,6 @@ proc template;    define style statsinrows;
 	end; 
 run; 
 */
+
+* note: in combination with ods select, use startpage=now see https://support.sas.com/kb/41/165.html
+* to get a new page;
