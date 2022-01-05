@@ -1,5 +1,4 @@
-* a macro that compares nested models specified with proc mixed;
-
+*** macro to compare two mixed models using a log likelihood test after fitting using ML;
 %macro compare_mm_nested(outcome=log_il_2, mmodel_full=%str(time reduc time*reduc),
 model_reduc=%str(time reduc), 
 ds=nimbus(where=(treatmentarm ne "Tribute" and instillation in (1,2,4,6,7,9) )),
@@ -7,7 +6,7 @@ class_vars=%str(time(ref="0.8") reduc(ref="0") patient_id time_class),
 corr_spec=%str(repeated time_class / subject=patient_id type=csh;),
 ds_comparison=comparison_log_il_2);
 
-ods results off;
+ods exclude all;
 ods output convergencestatus=_conv_full;
 ods output dimensions=_dim_full;
 ods output fitstatistics=_fit_full;
@@ -25,7 +24,7 @@ class &class_vars;
 model &outcome=&model_reduc / solution;
 &corr_spec;
 run;
-ods results on;
+ods exclude none;
 
 data _conv; 
 merge _conv_full(rename=(status=status_full) keep=status)  
@@ -47,6 +46,7 @@ if min(status_full,status_reduc)=0 then p=1-probchi(minus2loglik_reduc,minus2log
 run;
 
 %mend;
+
 
 %compare_mm_nested(outcome=log_il_6, mmodel_full=%str(time reduc time*reduc),
 model_reduc=%str(time reduc), 
