@@ -25,6 +25,11 @@ ods rtf file="test.doc" startpage=no keepn notoc_data wordstyle='(\s1 Heading 1;
 ods noproctitle;
 ods escapechar='^';
 
+* note for post processing;
+ods text="<<< manually insert Table of Contents where you want using Word (e.g. in Word 2010: Refences > Table of Contents) >>>>";
+
+
+
 *header;
 title1 "STUDY description ";
 
