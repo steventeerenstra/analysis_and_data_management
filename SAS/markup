@@ -18,9 +18,8 @@ footnote .j=r "%sysfunc(today(), yymmdd10)";
 *page layout;
 options orientation=landscape nodate;
 
-**TABLE of CONTENTS using method 2 of https://support.sas.com/resources/papers/proceedings/proceedings/forum2007/097-2007.pdf;
-* to generate a table of contents;
-* in ^R/RTF'xyz'  the text between xyz is put as rtf command; 
+**TABLE of CONTENTS in Word using method 2 of https://support.sas.com/resources/papers/proceedings/proceedings/forum2007/097-2007.pdf;
+* in ^R/RTF'xyz'  the text between xyz is put as rtf command, e.g \b for bold, \fs28 for font size 14; 
 ods rtf file="test.doc" startpage=no keepn notoc_data wordstyle='(\s1 Heading 1;)' ;
 ods noproctitle;
 ods escapechar='^';
@@ -36,6 +35,10 @@ title1 "STUDY description ";
 * entry for ToC;
 ods rtf prepage="^R/RTF'\s1\b\fs28' Investigate Missings";run;
 
+* text for in the text but not in the ToC;
+ods text=" abc"; * also for non-rtf output;
+ods rtf pretext="abc"; 
+ods rtf posttext="abc";
 
 /*
 * general ods rtf hints: https://support.sas.com/resources/papers/proceedings11/263-2011.pdf;
@@ -50,5 +53,4 @@ proc template;    define style statsinrows;
 run; 
 */
 
-* note: in combination with ods select, use startpage=now see https://support.sas.com/kb/41/165.html
-* to get a new page;
+* note: in combination with ods select, use startpage=now to get a new pagesee https://support.sas.com/kb/41/165.html;
