@@ -19,6 +19,7 @@ footnote .j=r "%sysfunc(today(), yymmdd10)";
 options orientation=landscape nodate;
 
 **TABLE of CONTENTS in Word using method 2 of https://support.sas.com/resources/papers/proceedings/proceedings/forum2007/097-2007.pdf;
+** see also: https://www.lexjansen.com/nesug/nesug04/io/io05.pdf;
 * in ^R/RTF'xyz'  the text between xyz is put as rtf command, e.g \b for bold, \fs28 for font size 14; 
 ods rtf file="test.doc" startpage=no keepn notoc_data wordstyle='(\s1 Heading 1;)' ;
 ods noproctitle;
