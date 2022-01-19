@@ -41,15 +41,14 @@ merge _fit_full(where=(descr="-2 Log Likelihood") rename=(value=minus2loglik_ful
 run; 
 
 data &ds_comparison;
-length full_model $ 50; length reduced_model $ 50;
+length outcome $ 50; length full_model $ 50; length reduced_model $ 50;length correlation $ 200;
 merge _conv _dim _fit;
 * only if both converged then calculate a p-value for the comparison;
 if min(status_full,status_reduc)=0 then p=1-probchi(minus2loglik_reduc,minus2loglik_full,dimX_full-dimX_reduc);
-full_model="&model_full"; reduced_model="&model_reduc";
+outcome="&outcome";full_model="&model_full"; reduced_model="&model_reduc";correlation="&corr_spec";
 run;
 
 %mend;
-
 
 %compare_mm_nested(outcome=log_il_6, mmodel_full=%str(time reduc time*reduc),
 model_reduc=%str(time reduc), 
