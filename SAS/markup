@@ -26,7 +26,9 @@ ods noproctitle;
 ods escapechar='^';
 
 * note for post processing;
-ods text="<<< manually insert Table of Contents where you want using Word (e.g. in Word 2010: Tab References > Table of Contents) >>>>";
+ods text="<<< manually insert Table of Contents where you want using Word (e.g. in Word 2010: Tab References > Table of Contents).
+              Do not include it in the Table containing this text, as it will then not flow over pages>>>>";
+
 
 
 
