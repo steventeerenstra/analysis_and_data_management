@@ -1,4 +1,4 @@
 # data
 data management
 
-Programs to facilated data management
+Programs to facilitate data and analysis management
