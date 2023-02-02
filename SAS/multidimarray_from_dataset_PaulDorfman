@@ -1,0 +1,4 @@
+*** create from an dataset an multidimensional array (a matrix with the values of the dataset) ***;
+***  useful when you want to use the array/matrix elements do dynamically refer to ***;  
+
+https://stackoverflow.com/questions/47422827/initialising-sas-multidimensional-array-from-another-dataset
