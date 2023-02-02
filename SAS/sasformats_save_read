@@ -16,3 +16,9 @@ options fmtsearch= (data.formats);
 * get data;
 data main; set data.base;
 run;
+
+* show coding of selected formats, you have to name the variables;
+*libname library 'SAS-library';
+proc format library=data.formats fmtlib;
+   select control pt_sex;* name of the format without the .;
+run;
