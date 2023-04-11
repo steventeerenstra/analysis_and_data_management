@@ -20,7 +20,7 @@ quit;
 /*** code to read in the sas7bdat and the formats is as follows***;
 ********* READ 	DATA *******;
 options pagesize=60;
-libname data ".\data";
+libname data ".\data"; * or use ..\data as relative path;
 * get formats;
 options fmtsearch= (data.formats);
 * show variables in dataset;
