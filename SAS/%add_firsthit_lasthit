@@ -1,0 +1,37 @@
+** add the value of the repeated measure when for the first time a criterion is met (hit) 
+** and idem for the last time; 
+** in a long dataset with a subject identifyer and repeated measure identifier; 
+%macro add_firsthit_lasthit(criterion=, first_hit_time=, last_hit_time=,dsin=, dsout=, subject=, repmeas=);
+* search the first and last time the criterion is met, called a hit;
+proc sort data=&dsin;by &subject &repmeas;run;
+data _&dsin._1; set &dsin;
+by &subject &repmeas;
+retain  _hit _firsthittime _lasthittime;
+* before the first measurement of a subject;
+* we have not yet a hit ;
+if first.&subject then do; _hit=0; _firsthittime=.;_lasthittime=.;end;
+* from the first measurement of a subject onwards...;
+* ..if we have not already have a hit, i.e. hit=0, we look whether the criterion is met;
+* ..if so, we have a hit, hit=1 for all coming measurements;
+* ..    and the current measurement gets recorded as the _firstmeas for all subsequent measurements;
+* ..    and the last hit is at least the current measurement; 
+if _hit=0 and &criterion=1 then do; _hit=1; _firsthittime=&repmeas; _lasthittime=&repmeas; end;
+*.. if we have already a hit and we find another hit then last hit time is at least the current measurement;
+if _hit=1 and &criterion=1 then do; _lasthittime =&repmeas;end;
+run;
+*** now add the requested first_hit_time and last_hit_time to all the repeated measurements of a subject;
+* (by sorting downwards per subject and then retain);
+* in the requested output dataset;
+proc sort data=_&dsin._1; by &subject descending &repmeas;run;
+data &dsout; set _&dsin._1;
+by &subject; retain &first_hit_time &last_hit_time;
+if first.&subject then do; &first_hit_time=_firsthittime;&last_hit_time=_lasthittime; end;
+drop _firsthittime _lasthittime _hit;
+run;
+proc sort data=&dsout; by &subject &repmeas;run;
+proc delete data=_&dsin._1;run;
+%mend add_firsthit_lasthit;
+
+* example: add the first and last studyday where a non-missing CRP value is recorded; 
+%add_firsthit_lasthit(criterion=%str((CRP ne .)), first_hit_time=first_CRP, last_hit_time=last_CRP,
+						dsin=source, dsout=source_crp, subject=participant_id, repmeas=studyday);
