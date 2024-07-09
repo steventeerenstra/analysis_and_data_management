@@ -1,0 +1,14 @@
+* display commands in listing and omit the modelviewer. 
+SET PRINTBACK LISTING.
+SET ODISPLAY TABLES.
+
+* file handle.
+FILE HANDLE data /NAME= "C:\Users\st\surfdrive\Actief\2401 AFFECT-2 (Eva Molendijk)\2406 ochtend temperatuur".
+* use it like the following.
+GET
+  FILE='data\Database_vertical_repeating data_cleaned data_updated drop outs.sav'.
+
+
+* macro debugging: This allows you to "see" the macro in the Output windows. 
+SET MPRINT=yes /PRINTBACK=yes. 
+
