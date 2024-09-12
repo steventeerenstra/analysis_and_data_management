@@ -1,0 +1,7 @@
+/*** number of records in a dataset ***/
+data _null_;
+    dsid= open("ds_to_count");
+    n_records= attrn(dsid,"nlobs");
+    call symput('n_records', trim(left(n_records)));
+run;    
+%put n_records is &n_records;
