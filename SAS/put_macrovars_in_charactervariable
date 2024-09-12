@@ -1,0 +1,23 @@
+
+
+data _null_; 
+     	set &ds_config; if _n_=&config; 
+		array npar{*} _numeric_; * all numeric variables ;
+		array cpar{*} _character_; * all character variables ; 
+		length list &length_parameterlist; * list to capture all config variables with their values;
+		*all numeric config variables: add them to the list and put them in macro vars;
+     	do i=1 to dim(npar);
+        	call symput(vname(npar{i}), compress(trim(npar{i})));
+			item=cats(vname(npar{i}), "=",compress(trim(npar{i})));
+			list=catx(";", list,item);
+     	end; 
+		*all character config variables: add them to the list and put them in macro vars;
+		do i=1 to dim(cpar);
+        	call symput(vname(cpar{i}), compress(trim(cpar{i}))); 
+			item=cats(vname(cpar{i}), "=",'"',cpar{i},'"');
+			list=catx(";", list,item);
+     	end; 
+		*make list available as macro variable;
+		list=cats(list,";");* add a last semi-colon; 
+		call symput('macrovar_list',list);
+	run;*check: %put _user_;
