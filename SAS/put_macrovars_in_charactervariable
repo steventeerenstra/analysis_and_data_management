@@ -1,10 +1,15 @@
+/*** we defince macro variables x, y, z, a  with values from a dataset ***
+***** and then but them like as a list in a character variable like (x=1;y=2;z=3;a="leuk") ***/ 
 
+data a;
+x=1; y=2;z=3;a="leuk";
+run;
 
-data _null_; 
-     	set &ds_config; if _n_=&config; 
-		array npar{*} _numeric_; * all numeric variables ;
-		array cpar{*} _character_; * all character variables ; 
-		length list &length_parameterlist; * list to capture all config variables with their values;
+data b; 
+     	set a; 
+		array npar{*} _numeric_; * all numeric variables in an array;
+		array cpar{*} _character_; * all character variables in an array; 
+		length list $100.; * list to capture all config variables with their values;
 		*all numeric config variables: add them to the list and put them in macro vars;
      	do i=1 to dim(npar);
         	call symput(vname(npar{i}), compress(trim(npar{i})));
@@ -19,5 +24,7 @@ data _null_;
      	end; 
 		*make list available as macro variable;
 		list=cats(list,";");* add a last semi-colon; 
+		list=cats(list,";");
 		call symput('macrovar_list',list);
-	run;*check: %put _user_;
+run;
+%put _user_;
