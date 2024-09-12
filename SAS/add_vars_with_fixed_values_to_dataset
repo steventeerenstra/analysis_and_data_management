@@ -1,0 +1,9 @@
+/** see also https://www.lexjansen.com/nesug/nesug07/cc/cc45.pdf **/
+
+** assuming c is a one record dataset with one or more variables (x=1;y=2);
+** then dataset a will be as dataset b, but now to each record added a variable x with value 1;
+** and a variable y with value 2;
+data a; 
+  if _n_=1 then set c; 
+  set b;
+run;
