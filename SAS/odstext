@@ -1,0 +1,7 @@
+ods startpage=now;
+proc odstext;
+p "Details of model 2 (&model2_label) by &cluster"/style=[fontsize=14pt ];;
+p "fixed effects of model 2: &model2"/style=[fontsize=14pt ];
+run;
+ods startpage=now;
+
