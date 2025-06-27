@@ -1,0 +1,36 @@
+* example dataset to repeat for each record;
+data periods;
+year=2025;
+input period_start $ period_stop $;*character variables as the 0 in 0430 etc needs to be kept;
+datalines;
+0101 0430
+0501 0531
+;
+run;
+
+%macro read_data_from_periods(ds_periods=);
+%local i n_periods year start stop dsid ds_close;
+
+* count number of periods;
+%let dsid = %sysfunc(open(&ds_periods));
+%let n_periods = %sysfunc(attrn(&dsid, nlobs));
+%let ds_close = %sysfunc(close(&dsid));
+
+* repeat for each record in the dataset;
+%do i=1 %to &n_periods;
+data _null_; 
+	set &ds_periods(firstobs=&i obs=&i); *subset the &i record only;
+	call symputx('year', year); *use symputx to get no leading/trailing spaces;
+	call symputx('period_start',period_start);
+	call symputx('period_stop',period_stop);
+run;
+
+* perform an action for the macro variables, analysis / data step or as here: output the values; 
+%put &year &period_start &period_stop; 
+
+%end;
+
+%mend read_data_from_periods;
+
+%read_data_from_periods(ds_periods=periods);
+
