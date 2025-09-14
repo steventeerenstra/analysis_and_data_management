@@ -1,0 +1,11 @@
+* we need to remove the format because this makes the graphs impossible;
+* work is the library and summary is the dataset, so adapt as necessary;
+* cps_1_mean is the variable; 
+proc datasets nolist nodetails lib=work memtype=data;
+	modify summary;
+    format cps_1_mean ;
+	run;
+
+ 
+
+ 
