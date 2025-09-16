@@ -1,5 +1,7 @@
 ods startpage=now;
+%let varname="continuous BP";
 proc odstext;
+p "this is variable &varname" / style= [ fontsize=20pt just=l]; *macro variables need to be between double quotes to be resolved";
 p "Blabla " /style=[fontsize=20pt textalign=center];; 
 p "Blabla syndrome: N-of-1 series" /style=[fontsize=14pt textalign=center];;
 p "EU trial number CTIS "/ style=[fontsize=14pt textalign=center];
