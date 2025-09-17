@@ -106,6 +106,32 @@ run;
 %mk_format(ds=&ds);
 
 
+
+*********************************************************************************************************;
+* EXAMPLE: format from a given dataset with a numeric value <cmonth> and label < escription> 
+*                        not specified values for <cmonth> are mapped to a the label 'other'
+*    see example https://communities.sas.com/t5/SAS-Programming/Build-a-Format-from-a-Dataset/td-p/904329;
+*********************************************************************************************************;
+data format_tbl;
+do cmonth=1 to 100;
+month=mod(cmonth-1,12)+1; * the month in a year as number;
+year=2019+floor((cmonth-1)/12); 
+description=catx("/",year,month);
+output;
+end;
+run;
+data work.outfmt(keep=start label fmtname hlo);  
+set work.Format_Tbl(rename=(cmonth=start description=label)) end=last;  
+fmtname='outfmt';type='n';
+output;
+if last then do;start=' ';hlo='o';label='other';output;end;
+run;
+proc format library=work cntlin=work.outfmt;
+run;
+
+
+
+
 **************************************************************************************;
 **** EXAMPLE look also for making a format from a dataset in SAS online help.....;
 **************************************************************************************;
