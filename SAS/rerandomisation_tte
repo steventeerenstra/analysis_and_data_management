@@ -1,0 +1,104 @@
+
+
+SAS macro for re-randomization log-rank test:
+%macro rand_log_rank(DAT, TIME, CENSOR, CENSOR_FLAG, STRATA, GROUP,
+NSAMPLE=1000, SEED=1818);
+/* DAT specifies the data set you are analyzing */
+/* TIME is a data set variable, in numeric format, */
+/* which identifies failure or censoring time */
+/* CENSOR is a data set variable which identifies censored*/
+/* records (=CENSOR_FLAG) and observed failure */
+/* time (ne CENSOR_FLAG) */
+/* CENSOR_FLAG indicates which value in CENSOR means censoring */
+/* STRATA specifies the stratification variables */
+/* GROUP is the variable that you want to test (e.g., */
+/* treatment variable) */
+/* NSAMPLE is the number of replicates produced for the */
+/* permutation test */
+/* SEED is the random seed */
+/* OUTPUT DATASET: */
+/* RESULT_P contains two columns. Column p_ori is the p */
+/* value using the ordinary log-rank test; Column */
+/* p_rand is the p value of the re-randomization */
+/* log-rank test */
+proc sort data=&dat;
+  by &strata;
+run;
+
+data __temp_1;
+  retain seed &seed;
+  drop seed;
+  set &dat nobs=numrec;
+  do replicate=1 to &nsample;
+    call ranuni(seed, rand_dep);
+    output;
+  end;
+  if _n_=1 then
+    call symputx('numrecs', numrec);
+run;
+
+proc sort data=__temp_1;
+  by replicate &strata rand_dep;
+run;
+
+
+data outrand;
+  array timelist{&NUMRECS} _temporary_;
+  array censorlist{&NUMRECS} _temporary_;
+  set &dat(in=in_orig) __temp_1(drop=rand_dep);
+  if in_orig then
+    do;
+      replicate=0;
+      timelist{_n_}=&time;
+      censorlist{_n_}=&censor;
+    end;
+  else
+    do;
+      &time=timelist{ifn(mod(_n_, &NUMRECS)~=0, mod(_n_, &NUMRECS),&NUMRECS)};
+      &censor=censorlist{ifn(mod(_n_, &NUMRECS)~=0, mod(_n_, &NUMRECS),&NUMRECS)};
+    end;
+run;
+
+proc lifetest data=outrand;
+  ods output HomTests=res(where=(test="Log-Rank"));
+  time &time*&censor(&CENSOR_FLAG);
+  by replicate;
+  strata &strata / group=&group;
+run;
+
+data _null_;
+  retain stat numsig numtot 0;
+  set res end=endofile;
+  if Replicate=0 then
+    do;
+      stat=chisq;
+      call symputx('p_ori_value', ProbChiSq);
+    end;
+  else
+    do;
+      numtot+1;
+      numsig + (chisq > stat);
+    end;
+  if endofile then
+    do;
+    ratio=numsig/numtot;
+    put "Randomization test result: P=" ratio 6.4;
+    call symputx('pvalue', ratio);
+  end;
+run;
+
+%put Non-Randomization test result: P=&p_ori_value;
+
+data result_p;
+  p_ori=&p_ori_value;
+  p_rand=&pvalue;
+run;
+%mend rand_log_rank;
+
+
+/* For example, suppose we have dataset work.dat. Variable time is the event time or censoring
+time of OS; variable event indicates whether the subject is censored or not (event = 0 means
+censoring). Variable age, ips, pet are categorical stratification variables. Variable trt is the
+treatment arm. Then the following code tests the stratified survival difference of OS:
+%rand_log_rank(dat, time, event, 0, age ips pet, trt);
+*/
