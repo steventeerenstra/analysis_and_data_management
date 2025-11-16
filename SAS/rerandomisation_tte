@@ -1,4 +1,4 @@
-
+* from SWOG;
 
 SAS macro for re-randomization log-rank test:
 %macro rand_log_rank(DAT, TIME, CENSOR, CENSOR_FLAG, STRATA, GROUP,
