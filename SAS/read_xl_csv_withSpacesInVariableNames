@@ -1,0 +1,58 @@
+*** this is based on the example in https://communities.sas.com/t5/New-SAS-User/My-csv-has-spaces-in-variable-names-can-I-refer-to-them-by-their/td-p/876420; 
+
+/* step 1: 
+datarow=2: read in the data without the first row with the variable name with spaces 
+            (or it could be the variable label such as in a survey)
+delimiter='3B'x: this is the semicolon as separator
+getnames=no: do not ask for variable names
+
+in general you can make this statement by using the proc import menu,
+and choosing the DelimitedFile option as dataformat
+*/
+PROC IMPORT OUT= WORK.a 
+            DATAFILE= "C:\Users\steer\Nextcloud\sync\Actief\23 HITHARD (
+Jeroen Schouten)\2602 DSMB analyses\01 period 1 only\HITHARD-DSMBData_DA
+TA_LABELS_2026-03-11_1444.csv" 
+           DBMS=DLM REPLACE;
+           DELIMITER='3B'x; 
+           GETNAMES=NO;
+           DATAROW=2; 
+           VARNAMEROW=0; 
+RUN;
+
+/* step 2a: 
+get the all the rows so including the first row with the variable description with spaces
+in the dataset headers
+*/
+proc import out=headers 
+            DATAFILE= "C:\Users\steer\Nextcloud\sync\Actief\23 HITHARD (
+Jeroen Schouten)\2602 DSMB analyses\01 period 1 only\HITHARD-DSMBData_DA
+TA_LABELS_2026-03-11_1444.csv" 
+	dbms=csv replace;
+	DELIMITER='3B'x; 
+  	getnames=NO;
+run;
+
+/* step 2b:
+transpose only the first row of dataset headers to get the variable names
+*/
+proc transpose data=headers(obs=1) out=names(rename=(col1=label));
+  var _all_;
+run;
+
+/* step 3 generate code that produces label statements */
+filename code temp;
+data _null_;
+  set names end=eof;
+  file code;
+  if _n_=1 then put 'label';
+  put _name_ '=' label :$quote. ;
+  if eof then put ';' ;
+run;
+
+/* step 4: add the label statements generated in step 3 to the dataset of step 1 */
+proc datasets nolist lib=work;
+  modify a;
+%include code / source2;
+  run;
+quit;
