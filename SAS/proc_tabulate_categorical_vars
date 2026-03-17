@@ -1,0 +1,80 @@
+/* proc tabulate is convenient when also of tabulation according to additional variables 
+have to be made. E.g. the categorical variable is staging (low, medium, high) and the
+additional variables are treatmen, center, country .. */
+
+* one categorical variable, here death cause (dd_cause);
+* having three categories and missing data;
+* displayed via proc tabulate using a format statement;
+
+data mort_cause_tabulate;set mort_cause;
+if dd_cause=1 then do; cause=1; occur=1; output;
+					   cause=2; occur=0; output;
+					   cause=3; occur=0; output;
+					   end;
+else if dd_cause=2 then do; cause=1; occur=0; output;
+					   		cause=2; occur=1; output;
+					   		cause=3; occur=0; output;
+							end;
+else if dd_cause=3 then do; cause=1; occur=0; output;
+					   		cause=2; occur=0; output;
+					   		cause=3; occur=1; output;
+							end;
+else if dd_cause=. then do; cause=1; occur=.; output;
+					   		cause=2; occur=.; output;
+					   		cause=3; occur=.; output;
+							end;
+run;
+proc format;
+value causef 1="sepsis related"
+                 2="not sepsis related"
+				 3="unknown"
+				 4="missing"
+;
+run;
+
+proc tabulate data=mort_cause_tabulate;format cause causef.;
+class cause ds_arm;
+var occur;
+* sum =number of subjects with the specific death cause;
+* n_nomiss= number of subjects with death cause known;
+* fraction= sum/n_nomiss;
+* n_miss= total number of subjects - n_nomiss;
+table cause, ds_arm=""*occur=""*(mean="fraction"*f=6.4 sum="occ."*f=2.0 n="n_nonmiss" nmiss="n_miss" );
+run;
+
+* categorical variables as different dummies;
+* dd_cause_und___1-10,99;
+* displayed via a proc tabulate;
+%macro rep_a(); 
+%do i=1 %to 10;
+und_cause=&i; occur=dd_cause_und___&i; output;
+%end;
+und_cause=99; occur=dd_cause_und___99;output;
+%mend rep_a;
+
+data mort_cause_und; set mort_cause;
+label und_cause="underlying cause";
+%rep_a();
+run;
+
+proc format;
+value und_causef 1="Sepsis and septic shock"
+                 2="Multiple organ failure"
+				 3="Respiratory"
+				 4="Cardiovascular"
+				 5="Neurological"
+				 6="Hemorrhage"
+				 7="Malignacy"
+                 8="Hematologic disorders"
+9="Metabolic or endocrine disorders"
+10="Liver failure"
+99="Other"
+;
+run;
+
+proc tabulate data=mort_cause_und;
+format und_cause und_causef.;
+class  und_cause ds_arm;
+var occur;
+table und_cause,ds_arm=""*occur=""*(mean="fraction"*f=6.4 sum="n_occur"*f=2.0 n="n_known" nmiss="n_unknown" );
+run; 
