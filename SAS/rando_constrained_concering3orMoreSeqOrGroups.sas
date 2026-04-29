@@ -37,6 +37,7 @@ run;
 * for each allocation, we determine the order in clusters switch;
 * i.e. for each cluster we count how many other clusters have a sequence/group index that is smaller;
 * if there are e.g. 3 clusters before, then the switch moment is 4, therefore the 1+ ;  
+* we get this way that switch_u12, switch_u34, switch_u5-switch_u11 cover the numbers 1 up to including 10; 
 data admissible_1; set admissible_0; 
 switch_u12=1+ (u2<u1) + (u4<u1) + (u5<u1) + (u6<u1) + (u7<u1) + (u8<u1) + (u9<u1) + (u10 < u1) + (u11< u1);* note that (u2<u1) is false by definition;
 switch_u34=1+ (u2<u3) + (u4<u3) + (u5<u3) + (u6<u3) + (u7<u3) + (u8<u3) + (u9<u3) + (u10 < u3) + (u11< u3);* note that (u4<u3) is false by definition; 
@@ -53,11 +54,6 @@ run;
 
 
 * condition 2: cluster 5 switches the 6th 7th 8th or 9th moment; 
-* this means that there are least 3 switch moments have to be before cluster 5 switches; 
-* note that cluster 1&2 (switching together) have a switch moment before cluster 5 if u2<u5;
-	* because u1<u2, in fact u1=u2-1;
-* note that cluster 3&4 (switching together) have a switch moment before cluster 5 if u4<u5;
-* cluster 6 has a switch moment before cluster 5 if u6 < u5;
 data admissible; set admissible_1; 
 if switch_u5 ge 6;
 run;
