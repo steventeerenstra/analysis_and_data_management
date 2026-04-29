@@ -1,24 +1,26 @@
-* step 1: first all permutations of 1,2,3, ..,n_seq;
-* this could be sequences in a Stepped Wedge or groups; 
-%let n_seq=11;
-%let n_perm=%sysfunc(perm(&n_seq));
+* step 1: first all permutations of all the units that we have to randomize;
+*         i.e. like every unit will go to a separate sequence/treatment group;
+*         we will built in the restrictions on units later in following steps; 
+%let n_units=11;
+%let n_perm=%sysfunc(perm(&n_units));
 %put number of permutations: &n_perm;
 
 ods exclude all; 
 proc plan; 
       factors  allocation=&n_perm ordered
-               u= &n_seq perm ; *u= unit, so u3=8 means that unit3 goes to sequence/group=8;
+               u= &n_units perm ; *u= unit, so u3=8 means that unit3 goes to sequence/group=8;
   ods output Plan=all_perm;
 run;
 ods exclude none;
 
-* step 2 is custom-made for each randomisation;  
+* step 2 is custom-made for each randomisation; 
+*        
 
-* condition 1 ("randomize 11 cluster to 9 sequences") ;
-* cluster 1 and 2 have to go in the same sequence, cluster 3 and 4 also in one sequence;
-* 	we make all allocations cluster 1 to seq x, cluster 2 to seq y, etc;
-*   but select those sequences in which cluster 1,2 have subsequent indices;
-*   which we will interpret as being in one sequence;
+* condition 1 ("randomize 11 cluster to 10 sequences in a SW") ;
+* unit 1 and 2 have to go in the same sequence;
+* 	we start from all allocations, see step 1;
+*   but select those sequences in which unit 1,2 have subsequent indices;
+*   which we will interpret as being in one sequence; 
 *   the same for cluster 3, 4; 
 * For example u1=4,u2=5 u3=1,u4=2 u5=6 u6=10 u7=8 u8=11 u9=3 u10=9 u11=7 means that cluster 3&4 switch first, then clusters 1, 
 *                               then cluster 3, then 7, then 8, then 9 then 1 etc;
