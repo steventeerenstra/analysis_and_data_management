@@ -1,0 +1,8 @@
+{
+  "bundle": "t001_compare_datasets_merge",
+  "source_file": "SAS/compare_datasets.sas",
+  "source_blob_sha": "9ba9fce562c12ecae2eb7d71ff4d1c813e4f59c2",
+  "source_commit": "db1261b4756c91693c05763822316c6b28b5ef97",
+  "tier": "real_data",
+  "notes": "Toy merge example from compare_datasets.sas: builds old/new datalines, sorts by ID, merges with in= flags, splits out records present only in old vs only in new. Single-char typo in the original toy (merge referenced 'b' instead of 'new') corrected to the dataset the author clearly named and described."
+}

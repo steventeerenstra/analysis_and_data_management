@@ -1,0 +1,10 @@
+                                  cmonth through outfmt. (101 and 500 fall to 'other')                                  
+
+  Obs   CMONTH
+    1   2019/1
+    2  2019/12
+    3   2020/1
+    4   2027/4
+    5    other
+    6    other
+

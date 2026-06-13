@@ -1,0 +1,8 @@
+{
+  "bundle": "t005_proc_tabulate_categorical",
+  "source_file": "SAS/proc_tabulate_categorical_vars",
+  "source_blob_sha": "3590aa9229f575648524e1339500f7c6039e1877",
+  "source_commit": "db1261b4756c91693c05763822316c6b28b5ef97",
+  "tier": "real_data",
+  "notes": "First PROC TABULATE block from proc_tabulate_categorical_vars: expands dd_cause (3 levels + missing) into per-cause occurrence indicators, defines causef format, then tabulates cause x arm with mean(fraction)/sum(occ)/n(n_nonmiss)/nmiss(n_miss). Mock mort_cause built to the dd_cause/ds_arm shape the snippet reads."
+}

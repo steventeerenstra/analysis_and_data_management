@@ -1,0 +1,8 @@
+{
+  "bundle": "t004_format_from_dataset",
+  "source_file": "SAS/formats_working_with_formats.sas",
+  "source_blob_sha": "8b11716324e842f2c6b2b67c206eff2772f1ff07",
+  "source_commit": "db1261b4756c91693c05763822316c6b28b5ef97",
+  "tier": "real_data",
+  "notes": "EXAMPLE 3 from formats_working_with_formats.sas: builds format_tbl (cmonth->year/month), reshapes into a cntlin dataset work.outfmt with an hlo='o' OTHER catch-all row, loads it with PROC FORMAT cntlin=, then applies outfmt. to demo data so out-of-range values map to 'other'. Fully self-contained in the source; added a small demo apply step."
+}
