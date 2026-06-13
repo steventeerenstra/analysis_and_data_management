@@ -1,0 +1,8 @@
+{
+  "bundle": "t002_macro_repeat_over_records",
+  "source_file": "SAS/%repeat_over_records_dataset",
+  "source_blob_sha": "bcd22670ee1f9177db8051661c9c0168c24d4012",
+  "source_commit": "db1261b4756c91693c05763822316c6b28b5ef97",
+  "tier": "real_data",
+  "notes": "Caller for %read_data_from_periods: counts records via OPEN/ATTRN(nlobs), then loops record-by-record subsetting firstobs=&i obs=&i and lifting values into macro vars with CALL SYMPUTX. Inline periods datalines + macro are from the source file; trimmed the incidental %local list to the variables the macro actually iterates with."
+}

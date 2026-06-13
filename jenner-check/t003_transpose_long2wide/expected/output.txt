@@ -1,0 +1,7 @@
+                               Long-to-wide: one row per patient, measurements as columns                               
+
+  Obs  PAT_ID  VAR1  VAR2  _NAME_  _1  _2  _3
+    1       1   100     5  value   10  12  15
+    2       2   200     7  value   20  22  19
+    3       3   300     9  value    8   9  11
+

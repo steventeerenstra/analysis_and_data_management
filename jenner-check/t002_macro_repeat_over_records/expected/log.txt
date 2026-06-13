@@ -1,0 +1,35 @@
+Jenner 0.1.0 (Unlicensed - limited to 100 observations)
+Get a license at https://jenneranalytics.com/license
+
+NOTE: Option OBS changed to 100.
+NOTE: DATA periods
+
+NOTE: Processing inline DATALINES (2 lines)
+
+NOTE: Read 2 rows from DATALINES.
+NOTE: Wrote periods (2 rows, 3 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA _null_
+
+
+NOTE: Read 1 rows from periods.
+NOTE: Wrote _null_ (1 rows, 3 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA _null_
+
+
+NOTE: Read 1 rows from periods.
+NOTE: Wrote _null_ (1 rows, 3 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: number of periods = 2
+RECORD 1: 2025 0101 0430
+RECORD 2: 2025 0501 0531
+NOTE: PROC PRINT data=periods
+
+NOTE: PROC PRINT completed: 2 observations printed, 3 variables

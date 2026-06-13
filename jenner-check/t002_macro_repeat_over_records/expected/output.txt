@@ -1,0 +1,6 @@
+                                       Periods dataset iterated record by record                                        
+
+  Obs  PERIOD_START  PERIOD_STOP  YEAR
+    1  0101          0430         2025
+    2  0501          0531         2025
+

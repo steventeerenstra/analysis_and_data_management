@@ -1,0 +1,19 @@
+{
+  "_captured_at": "2026-06-13T18:01:07.129150Z",
+  "_captured_run_id": "r_019ec223f8307b00b716086a771dd7db",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "NOTE: Wrote format_tbl (100 rows, 5 columns).",
+    "NOTE: CNTLIN: Loaded 101 format entries from work.outfmt",
+    "NOTE: PROC PRINT completed: 6 observations printed, 1 variables"
+  ],
+  "log_does_not_contain": [
+    "ERROR:",
+    "[JENNER-ERROR"
+  ],
+  "diagnostics": {
+    "parse_warnings": [],
+    "runtime_warnings": []
+  }
+}

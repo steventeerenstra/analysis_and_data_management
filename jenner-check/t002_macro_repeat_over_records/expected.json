@@ -1,0 +1,20 @@
+{
+  "_captured_at": "2026-06-13T18:03:22.618030Z",
+  "_captured_run_id": "r_019ec227167c7133863d3586f78d1beb",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "NOTE: number of periods = 2",
+    "RECORD 1: 2025 0101 0430",
+    "RECORD 2: 2025 0501 0531",
+    "NOTE: PROC PRINT completed: 2 observations printed, 3 variables"
+  ],
+  "log_does_not_contain": [
+    "ERROR:",
+    "[JENNER-ERROR"
+  ],
+  "diagnostics": {
+    "parse_warnings": [],
+    "runtime_warnings": []
+  }
+}

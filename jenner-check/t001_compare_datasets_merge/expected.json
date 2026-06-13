@@ -1,0 +1,20 @@
+{
+  "_captured_at": "2026-06-13T17:40:52.233122Z",
+  "_captured_run_id": "r_019ec211f6127da2ad913c2b5f1da2a7",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "NOTE: Wrote merged (7 rows, 5 columns).",
+    "NOTE: Wrote only_in_old (2 rows, 5 columns).",
+    "NOTE: Wrote only_in_new (1 rows, 5 columns).",
+    "NOTE: PROC PRINT completed: 7 observations printed, 5 variables"
+  ],
+  "log_does_not_contain": [
+    "ERROR:",
+    "[JENNER-ERROR"
+  ],
+  "diagnostics": {
+    "parse_warnings": [],
+    "runtime_warnings": []
+  }
+}

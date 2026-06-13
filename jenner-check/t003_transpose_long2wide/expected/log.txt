@@ -1,0 +1,36 @@
+Jenner 0.1.0 (Unlicensed - limited to 100 observations)
+Get a license at https://jenneranalytics.com/license
+
+NOTE: Option OBS changed to 100.
+NOTE: DATA _long
+
+NOTE: Processing inline DATALINES (9 lines)
+
+NOTE: Read 9 rows from DATALINES.
+NOTE: Wrote _long (9 rows, 5 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC SORT data=_long
+
+NOTE: Unlicensed mode - input limited to 100 observations.
+NOTE: Read 9 rows from _long.
+NOTE: Wrote _long (9 rows, 5 columns).
+NOTE: PROC SORT statement used.
+NOTE: Unrecognized statement 'Semi' in PROC TRANSPOSE, ignoring.
+NOTE: Unrecognized statement 'Semi' in PROC TRANSPOSE, ignoring.
+NOTE: PROC TRANSPOSE data=_long
+
+NOTE: Created 3 rows.
+NOTE: Output written to /tmp/work/work/c3185f3a-ca2a-49c4-9618-d3412c8763c1/_wide.avro.
+NOTE: DATA _wide
+
+
+NOTE: Read 3 rows from _wide.
+NOTE: Wrote _wide (3 rows, 7 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC PRINT data=_wide
+
+NOTE: PROC PRINT completed: 3 observations printed, 7 variables

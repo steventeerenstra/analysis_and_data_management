@@ -1,0 +1,8 @@
+{
+  "bundle": "t003_transpose_long2wide",
+  "source_file": "SAS/transpose_long2wide",
+  "source_blob_sha": "1dc7d3ebabd9396e13ae6cd960b1aa5f934cd671",
+  "source_commit": "db1261b4756c91693c05763822316c6b28b5ef97",
+  "tier": "real_data",
+  "notes": "PROC TRANSPOSE long->wide from transpose_long2wide: by pat_id, id measurement, var value, copy var1 var2; then drops the empty (_name_='') records. Mock _long dataset built to the column shape the snippet reads (pat_id, measurement, value, var1, var2)."
+}
